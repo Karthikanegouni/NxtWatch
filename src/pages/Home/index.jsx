@@ -14,6 +14,7 @@ import NxtWatchContext from "../../context/NxtWatchContext"
 import Banner from "../../components/Banner"
 import LoaderComponent from "../../components/LoaderComponent"
 import { AiOutlineSearch } from "react-icons/ai"
+import VideoItem from "../../components/VideoItem"
 
 const apiStatusConstants = {
   initial: "INITIAL",
@@ -25,6 +26,7 @@ const apiStatusConstants = {
 const Home = () => {
   const [searchInput, setSearchInput] = useState("")
   const [apiStatus, setapiStatus] = useState(apiStatusConstants.initial)
+  const [videosList, setVideosList] = useState([])
 
   useEffect(() => {
     fetchData()
@@ -44,7 +46,16 @@ const Home = () => {
       const response = await fetch(apiUrl, options)
       if (response.ok) {
         const data = await response.json()
-        console.log(data)
+        const updatedData = data.videos.map((eachVideo) => ({
+          id: eachVideo.id,
+          title: eachVideo.title,
+          thumbnailUrl: eachVideo.thumbnail_url,
+          viewCount: eachVideo.view_count,
+          publishedAt: eachVideo.published_at,
+          name: eachVideo.channel.name,
+          profileImageUrl: eachVideo.channel.profile_image_url,
+        }))
+        setVideosList(updatedData)
         setapiStatus(apiStatusConstants.success)
       }
       return setapiStatus(apiStatusConstants.failure)
@@ -78,7 +89,11 @@ const Home = () => {
                     <AiOutlineSearch />
                   </SearchButton>
                 </SearchWrapper>
-                <VideoItemsContainer></VideoItemsContainer>
+                <VideoItemsContainer>
+                  {videosList.map((item) => (
+                    <VideoItem key={item.id} video={item} />
+                  ))}
+                </VideoItemsContainer>
               </HomeContainer>
             </MainContainer>
           </>

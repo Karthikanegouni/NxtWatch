@@ -64,6 +64,7 @@ export const SearchButton = styled.button`
 export const VideoItemsContainer = styled.ul`
   list-style-type: none;
   padding: 0;
-  background-color: red;
-  min-height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
 `
