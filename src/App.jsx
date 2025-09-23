@@ -9,6 +9,7 @@ import "./App.css"
 import Trending from "./pages/Trending"
 import Gaming from "./pages/Gaming"
 import SavedVideos from "./pages/SavedVideos"
+import VideoDetailedView from "./pages/VideoDetailedView"
 
 const App = () => {
   const [isDark, setTheme] = useState(false)
@@ -38,6 +39,11 @@ const App = () => {
           <ProtectedRoute exact path="/trending" component={Trending} />
           <ProtectedRoute exact path="/gaming" component={Gaming} />
           <ProtectedRoute exact path="/saved-videos" component={SavedVideos} />
+          <ProtectedRoute
+            exact
+            path="/videos/:id"
+            component={VideoDetailedView}
+          />
           <Route exact path="/not-found" component={NotFound} />
           <Redirect to="/not-found" />
         </Switch>

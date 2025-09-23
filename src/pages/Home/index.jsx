@@ -57,11 +57,33 @@ const Home = () => {
         }))
         setVideosList(updatedData)
         setapiStatus(apiStatusConstants.success)
+        return
       }
       return setapiStatus(apiStatusConstants.failure)
     } catch (error) {
       setapiStatus(apiStatusConstants.failure)
       console.log(error.message)
+    }
+  }
+
+  const renderSuccessView = () => (
+    <VideoItemsContainer>
+      {videosList.map((item) => (
+        <VideoItem key={item.id} video={item} />
+      ))}
+    </VideoItemsContainer>
+  )
+
+  const renderHomeView = () => {
+    switch (apiStatus) {
+      case apiStatusConstants.inProgress:
+        return <LoaderComponent />
+      case apiStatusConstants.success:
+        return renderSuccessView()
+      case apiStatusConstants.failure:
+        return <h1>Failure</h1>
+      default:
+        break
     }
   }
 
@@ -89,11 +111,7 @@ const Home = () => {
                     <AiOutlineSearch />
                   </SearchButton>
                 </SearchWrapper>
-                <VideoItemsContainer>
-                  {videosList.map((item) => (
-                    <VideoItem key={item.id} video={item} />
-                  ))}
-                </VideoItemsContainer>
+                {renderHomeView()}
               </HomeContainer>
             </MainContainer>
           </>

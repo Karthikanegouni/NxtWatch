@@ -65,6 +65,12 @@ export const VideoItemsContainer = styled.ul`
   list-style-type: none;
   padding: 0;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1em;
+
+  @media screen and (min-width: 768px) {
+    gap: 2em;
+    justify-content: flex-start;
+  }
 `

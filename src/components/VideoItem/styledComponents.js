@@ -9,8 +9,14 @@ export const ListItem = styled.li`
   flex-direction: column;
   margin-bottom: 20px;
 
+  @media screen and (min-width: 576px) {
+    width: 100%;
+    max-width: 200px;
+  }
+
   @media screen and (min-width: 768px) {
-    width: 300px;
+    width: 450px;
+    max-width: 500px;
     margin-right: 20px;
   }
 `
