@@ -1,10 +1,5 @@
 import React from "react"
-import {
-  AiFillHome,
-  AiTwotoneFire,
-  GiGamepad,
-  MdPlaylistAdd,
-} from "react-icons/all"
+import { AiFillHome, HiFire, GiGamepad, MdPlaylistAdd } from "react-icons/all"
 import { NavItemsListContainer } from "./styledComponents"
 import NavItem from "../NavItem"
 
@@ -28,7 +23,7 @@ const NavItemsContainer = () => {
       path: "/trending",
       displayText: "Trending",
       icon: (
-        <AiTwotoneFire
+        <HiFire
           size={25}
           color={isActivePath("/trending") ? "#de1414" : "#737070"}
         />

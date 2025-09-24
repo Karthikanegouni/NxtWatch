@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 export const ListItem = styled.li`
-  font-family: Roboto;
   width: 100%;
   display: flex;
   flex-direction: column;

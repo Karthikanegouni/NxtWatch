@@ -112,7 +112,7 @@ const Header = ({ history }) => (
       return (
         <HeaderContainer dark={isDark}>
           <Link to="/">
-            <Logo src={logoUrl} alt="nxtwatch logo" />
+            <Logo src={logoUrl} alt="website logo" />
           </Link>
           <HeaderItemsContainer>
             {isDark ? (

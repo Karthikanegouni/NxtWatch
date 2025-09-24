@@ -3,6 +3,11 @@ import Cookies from "js-cookie"
 import Header from "../../components/Header"
 import Sidebar from "../../components/Sidebar"
 import {
+  FailureContainer,
+  FailureImg,
+  FailureInfo,
+  FailureText,
+  RetryButton,
   HomeContainer,
   MainContainer,
   SearchButton,
@@ -15,6 +20,7 @@ import Banner from "../../components/Banner"
 import LoaderComponent from "../../components/LoaderComponent"
 import { AiOutlineSearch } from "react-icons/ai"
 import VideoItem from "../../components/VideoItem"
+import FailureView from "../../components/FailureView"
 
 const apiStatusConstants = {
   initial: "INITIAL",
@@ -66,35 +72,56 @@ const Home = () => {
     }
   }
 
-  const renderSuccessView = () => (
-    <VideoItemsContainer>
-      {videosList.map((item) => (
-        <VideoItem key={item.id} video={item} />
-      ))}
-    </VideoItemsContainer>
-  )
-
-  const renderHomeView = () => {
-    switch (apiStatus) {
-      case apiStatusConstants.inProgress:
-        return <LoaderComponent />
-      case apiStatusConstants.success:
-        return renderSuccessView()
-      case apiStatusConstants.failure:
-        return <h1>Failure</h1>
-      default:
-        break
-    }
-  }
-
   return (
     <NxtWatchContext.Consumer>
       {(value) => {
         const { isDark } = value
+
+        const renderNoVideosView = () => {
+          return (
+            <FailureContainer dark={isDark}>
+              <FailureImg
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+                alt="no videos"
+              />
+              <FailureText dark={isDark}>No Search results found</FailureText>
+              <FailureInfo dark={isDark}>
+                Try different key words or remove search filter
+              </FailureInfo>
+              <RetryButton type="buttons" onClick={fetchData}>
+                Retry
+              </RetryButton>
+            </FailureContainer>
+          )
+        }
+
+        const renderSuccessView = () =>
+          videosList.length !== 0 ? (
+            <VideoItemsContainer>
+              {videosList.map((item) => (
+                <VideoItem key={item.id} video={item} />
+              ))}
+            </VideoItemsContainer>
+          ) : (
+            renderNoVideosView()
+          )
+
+        const renderHomeView = () => {
+          switch (apiStatus) {
+            case apiStatusConstants.inProgress:
+              return <LoaderComponent />
+            case apiStatusConstants.success:
+              return renderSuccessView()
+            case apiStatusConstants.failure:
+              return <FailureView fetchData={fetchData} />
+            default:
+              break
+          }
+        }
         return (
           <>
             <Header />
-            <MainContainer>
+            <MainContainer dark={isDark}>
               <Sidebar />
               <HomeContainer data-testid="home" dark={isDark}>
                 <Banner />
