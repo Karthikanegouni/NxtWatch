@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
-import Cookies from "js-cookie"
-import Header from "../../components/Header"
-import Sidebar from "../../components/Sidebar"
+import {useEffect, useState} from 'react'
+import Cookies from 'js-cookie'
+import {AiOutlineSearch} from 'react-icons/ai'
+import Header from '../../components/Header'
+import Sidebar from '../../components/Sidebar'
 import {
   FailureContainer,
   FailureImg,
@@ -14,37 +15,32 @@ import {
   SearchInput,
   SearchWrapper,
   VideoItemsContainer,
-} from "./styledComponents"
-import NxtWatchContext from "../../context/NxtWatchContext"
-import Banner from "../../components/Banner"
-import LoaderComponent from "../../components/LoaderComponent"
-import { AiOutlineSearch } from "react-icons/ai"
-import VideoItem from "../../components/VideoItem"
-import FailureView from "../../components/FailureView"
+} from './styledComponents'
+import NxtWatchContext from '../../context/NxtWatchContext'
+import Banner from '../../components/Banner'
+import LoaderComponent from '../../components/LoaderComponent'
+import VideoItem from '../../components/VideoItem'
+import FailureView from '../../components/FailureView'
 
 const apiStatusConstants = {
-  initial: "INITIAL",
-  inProgress: "IN_PROGRESS",
-  success: "SUCCESS",
-  failure: "FAILURE",
+  initial: 'INITIAL',
+  inProgress: 'IN_PROGRESS',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
 }
 
 const Home = () => {
-  const [searchInput, setSearchInput] = useState("")
+  const [searchInput, setSearchInput] = useState('')
   const [apiStatus, setapiStatus] = useState(apiStatusConstants.initial)
   const [videosList, setVideosList] = useState([])
-
-  useEffect(() => {
-    fetchData()
-  }, [])
 
   const fetchData = async () => {
     try {
       setapiStatus(apiStatusConstants.inProgress)
       const apiUrl = `https://apis.ccbp.in/videos/all?search=${searchInput}`
-      const jwtToken = Cookies.get("jwt_token")
+      const jwtToken = Cookies.get('jwt_token')
       const options = {
-        method: "GET",
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -52,7 +48,7 @@ const Home = () => {
       const response = await fetch(apiUrl, options)
       if (response.ok) {
         const data = await response.json()
-        const updatedData = data.videos.map((eachVideo) => ({
+        const updatedData = data.videos.map(eachVideo => ({
           id: eachVideo.id,
           title: eachVideo.title,
           thumbnailUrl: eachVideo.thumbnail_url,
@@ -65,45 +61,49 @@ const Home = () => {
         setapiStatus(apiStatusConstants.success)
         return
       }
-      return setapiStatus(apiStatusConstants.failure)
+      setapiStatus(apiStatusConstants.failure)
+      return
     } catch (error) {
       setapiStatus(apiStatusConstants.failure)
       console.log(error.message)
     }
   }
 
+  useEffect(() => {
+    fetchData()
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <NxtWatchContext.Consumer>
-      {(value) => {
-        const { isDark } = value
+      {value => {
+        const {isDark} = value
 
-        const renderNoVideosView = () => {
-          return (
-            <FailureContainer dark={isDark}>
-              <FailureImg
-                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
-                alt="no videos"
-              />
-              <FailureText dark={isDark}>No Search results found</FailureText>
-              <FailureInfo dark={isDark}>
-                Try different key words or remove search filter
-              </FailureInfo>
-              <RetryButton type="buttons" onClick={fetchData}>
-                Retry
-              </RetryButton>
-            </FailureContainer>
-          )
-        }
+        const renderNoVideosView = () => (
+          <FailureContainer dark={isDark}>
+            <FailureImg
+              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+              alt="no videos"
+            />
+            <FailureText dark={isDark}>No Search results found</FailureText>
+            <FailureInfo dark={isDark}>
+              Try different key words or remove search filter
+            </FailureInfo>
+            <RetryButton type="buttons" onClick={fetchData}>
+              Retry
+            </RetryButton>
+          </FailureContainer>
+        )
 
         const renderSuccessView = () =>
-          videosList.length !== 0 ? (
+          !videosList?.length ? (
+            renderNoVideosView()
+          ) : (
             <VideoItemsContainer>
-              {videosList.map((item) => (
+              {videosList.map(item => (
                 <VideoItem key={item.id} video={item} />
               ))}
             </VideoItemsContainer>
-          ) : (
-            renderNoVideosView()
           )
 
         const renderHomeView = () => {
@@ -115,7 +115,7 @@ const Home = () => {
             case apiStatusConstants.failure:
               return <FailureView fetchData={fetchData} />
             default:
-              break
+              return null
           }
         }
         return (
@@ -130,11 +130,16 @@ const Home = () => {
                     type="search"
                     placeholder="Search"
                     dark={isDark}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSearchInput(e.target.value)
                     }}
                   />
-                  <SearchButton type="button" dark={isDark} onClick={fetchData}>
+                  <SearchButton
+                    type="button"
+                    dark={isDark}
+                    onClick={fetchData}
+                    data-testid="searchButton"
+                  >
                     <AiOutlineSearch />
                   </SearchButton>
                 </SearchWrapper>

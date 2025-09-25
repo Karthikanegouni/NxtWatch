@@ -3,6 +3,7 @@ import styled from "styled-components"
 export const FailureContainer = styled.div`
   color: ${(props) => (props.dark ? "#cccccc" : "#424242")};
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;

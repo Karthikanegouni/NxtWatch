@@ -15,6 +15,8 @@ export const LinkItem = styled(Link)`
 
 export const TrendingVideoThumbnailImage = styled.img`
   width: 100%;
+  max-height: 300px;
+  margin-bottom: 1em;
 
   @media screen and (min-width: 576px) {
     width: 50%;
@@ -67,7 +69,7 @@ export const VideoTitle = styled.h1`
   margin-bottom: 0;
   color: ${(props) => (props.dark ? "#ffffff" : "#0f0f0f")};
 
-  :hover{
+  :hover {
     text-decoration: underline;
   }
 `

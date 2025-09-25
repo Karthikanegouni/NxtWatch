@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 const NxtWatchContext = React.createContext({
   isDark: false,
@@ -6,6 +6,19 @@ const NxtWatchContext = React.createContext({
 
   showAdBanner: true,
   removeBanner: () => {},
+
+  isLiked: () => {},
+  isDisliked: () => {},
+  isSaved: () => {},
+
+  likedVideosList: [],
+  toggleLike: () => {},
+
+  savedVideosList: [],
+  toggleSave: () => {},
+
+  dislikedVideosList: [],
+  toggleDislike: () => {},
 })
 
 export default NxtWatchContext

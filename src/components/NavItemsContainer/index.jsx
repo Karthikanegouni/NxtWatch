@@ -1,4 +1,3 @@
-import React from "react"
 import { AiFillHome, HiFire, GiGamepad, MdPlaylistAdd } from "react-icons/all"
 import { NavItemsListContainer } from "./styledComponents"
 import NavItem from "../NavItem"
@@ -53,19 +52,17 @@ const NavItemsContainer = () => {
     },
   ]
 
-  const renderMenuItems = () => {
-    return (
-      <NavItemsListContainer>
-        {navItemsList.map((item) => (
-          <NavItem
-            key={item.id}
-            navItem={item}
-            isactive={isActivePath(item.path)}
-          />
-        ))}
-      </NavItemsListContainer>
-    )
-  }
+  const renderMenuItems = () => (
+    <NavItemsListContainer>
+      {navItemsList.map((item) => (
+        <NavItem
+          key={item.id}
+          navItem={item}
+          isactive={isActivePath(item.path)}
+        />
+      ))}
+    </NavItemsListContainer>
+  )
 
   return <div>{renderMenuItems()}</div>
 }

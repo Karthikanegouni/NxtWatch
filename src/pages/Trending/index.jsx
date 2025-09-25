@@ -26,10 +26,6 @@ const Trending = () => {
   const [trendingVideosList, settrendingVideosList] = useState([])
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial)
 
-  useEffect(() => {
-    fetchTrendingVideos()
-  }, [])
-
   const fetchTrendingVideos = async () => {
     try {
       setApiStatus(apiStatusConstants.inProgress)
@@ -64,19 +60,20 @@ const Trending = () => {
     } catch (error) {
       setApiStatus(apiStatusConstants.failure)
       console.log(error.message)
-      return
     }
   }
 
-  const renderTrendingVideoItems = () => {
-    return (
-      <TrendingVideosListContainer>
-        {trendingVideosList.map((video) => (
-          <TrendingVideoItem key={video.id} video={video} />
-        ))}
-      </TrendingVideosListContainer>
-    )
-  }
+  useEffect(() => {
+    fetchTrendingVideos()
+  }, [])
+
+  const renderTrendingVideoItems = () => (
+    <TrendingVideosListContainer>
+      {trendingVideosList.map((video) => (
+        <TrendingVideoItem key={video.id} video={video} />
+      ))}
+    </TrendingVideosListContainer>
+  )
 
   return (
     <NxtWatchContext.Consumer>
@@ -93,7 +90,7 @@ const Trending = () => {
             case apiStatusConstants.failure:
               return <FailureView fetchData={fetchTrendingVideos} />
             default:
-              break
+              return null
           }
         }
         return (
@@ -103,7 +100,7 @@ const Trending = () => {
               <Sidebar />
 
               <TrendingContainer dark={isDark} data-testid="trending">
-                <TrendingHeader dark={isDark}>
+                <TrendingHeader dark={isDark} data-testid="banner">
                   <Icon size={50} color="red" bg={bgColor} />
                   <HeaderTitle>Trending</HeaderTitle>
                 </TrendingHeader>

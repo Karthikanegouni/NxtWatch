@@ -28,9 +28,6 @@ export const TrendingContainer = styled.div`
   flex-direction: column;
   overflow-y: auto;
   background-color: ${(props) => (props.dark ? "#0f0f0f" : "#f9f9f9")};
-
-  @media screen and (min-width: 768px) {
-  }
 `
 
 export const TrendingVideosListContainer = styled.ul`
