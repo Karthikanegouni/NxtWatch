@@ -18,7 +18,7 @@ Explore the live app here: [https://nxtwatchak.netlify.app/](https://nxtwatchak.
 - [Project Structure](#project-structure)
 - [Installation & Running](#installation--running)
 - [Usage](#usage)
-- [API Endpoints](#api-endpoints)
+- [API Endpoints](#api-endpoints-overview)
 - [User Credentials](#user-credentials)
 - [License](#license)
 
